@@ -15,6 +15,8 @@
 		37B08C4C25F89C2E007D618C /* CardsGame.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 37B08C4A25F89C2E007D618C /* CardsGame.xcdatamodeld */; };
 		37B08C5725F89C2F007D618C /* CardsGameTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37B08C5625F89C2F007D618C /* CardsGameTests.swift */; };
 		37B08C6225F89C2F007D618C /* CardsGameUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37B08C6125F89C2F007D618C /* CardsGameUITests.swift */; };
+		37B52C5725F8A4260033ED93 /* GameOverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37B52C5625F8A4260033ED93 /* GameOverView.swift */; };
+		37B52C5C25F8A6270033ED93 /* InGameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37B52C5B25F8A6270033ED93 /* InGameView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +51,8 @@
 		37B08C5D25F89C2F007D618C /* CardsGameUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CardsGameUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		37B08C6125F89C2F007D618C /* CardsGameUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardsGameUITests.swift; sourceTree = "<group>"; };
 		37B08C6325F89C2F007D618C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		37B52C5625F8A4260033ED93 /* GameOverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameOverView.swift; sourceTree = "<group>"; };
+		37B52C5B25F8A6270033ED93 /* InGameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InGameView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +105,8 @@
 			children = (
 				37B08C3F25F89C2B007D618C /* CardsGameApp.swift */,
 				37B08C4125F89C2B007D618C /* ContentView.swift */,
+				37B52C5B25F8A6270033ED93 /* InGameView.swift */,
+				37B52C5625F8A4260033ED93 /* GameOverView.swift */,
 				37B08C4325F89C2E007D618C /* Assets.xcassets */,
 				37B08C4825F89C2E007D618C /* Persistence.swift */,
 				37B08C4D25F89C2E007D618C /* Info.plist */,
@@ -265,8 +271,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				37B52C5725F8A4260033ED93 /* GameOverView.swift in Sources */,
 				37B08C4925F89C2E007D618C /* Persistence.swift in Sources */,
 				37B08C4C25F89C2E007D618C /* CardsGame.xcdatamodeld in Sources */,
+				37B52C5C25F8A6270033ED93 /* InGameView.swift in Sources */,
 				37B08C4225F89C2B007D618C /* ContentView.swift in Sources */,
 				37B08C4025F89C2B007D618C /* CardsGameApp.swift in Sources */,
 			);
