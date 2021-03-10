@@ -11,6 +11,8 @@ struct Card : Identifiable,Hashable{
     let id = UUID()
     let suit:String
     let rank:String
+    var c = 1.0
+    var f = 0
 }
 
 let suits = ["clubs","diamonds","hearts","spades"]
@@ -26,6 +28,7 @@ struct InGameView: View {
     @State var player2 = [Card]()
     @State var player3 = [Card]()
     @State var player4 = [Card]()
+
     
     @State private var isShowGameOver = false
     @State private var isNotStart = true
@@ -35,13 +38,26 @@ struct InGameView: View {
             
             Text("\(message)").offset(x: 0, y: 50.0)
             
+            Button(
+                action:{
+                    dropCard1()
+                },
+                label:{
+                    Image(systemName:"xmark.circle.fill")
+                        .resizable()
+                        .frame(width: 50, height: 50, alignment: .center)
+                        .padding(20)
+            }).offset(x: 0, y: 80.0)
+            
             ZStack(){
                 ForEach(player1.indices , id:\.self){ (index) in
                     HStack{
                         Image("\(player1[index].rank)_of_\(player1[index].suit)")
                             .resizable()
                             .frame(width: 100, height: 145, alignment: .center)
-                            .offset(x: CGFloat(index)*35, y: 10)
+                            .opacity(player1[index].c)
+                            .animation(.default)
+                            .offset(x: CGFloat(index)*35, y:10-CGFloat(player1[index].f))
                     }
                 }
             }.offset(x: -180, y: 180)
@@ -52,8 +68,10 @@ struct InGameView: View {
                         Image("back_card")
                             .resizable()
                             .frame(width: 100, height: 145, alignment: .center)
-                            .rotationEffect(.degrees(90))
-                            .offset(x:10, y: CGFloat(index)*20)
+                            .opacity(player2[index].c)
+                            .animation(.default)
+                            .offset(x:10+CGFloat(player2[index].f), y: CGFloat(index)*20)
+                            
                     }
                 }
             }.offset(x: -430, y: -100)
@@ -64,7 +82,9 @@ struct InGameView: View {
                         Image("back_card")
                             .resizable()
                             .frame(width: 100, height: 145, alignment: .center)
-                            .offset(x: CGFloat(index)*35, y: 10)
+                            .opacity(player3[index].c)
+                            .animation(.default)
+                            .offset(x: CGFloat(index)*35, y:10+CGFloat(player3[index].f))
                     }
                 }
             }.offset(x: -250, y: -200)
@@ -73,11 +93,13 @@ struct InGameView: View {
             ZStack(){
                 ForEach(player4.indices , id:\.self){ (index) in
                     HStack{
-                        Image("back_card")
+                        Image("\(player4[index].rank)_of_\(player4[index].suit)")
                             .resizable()
                             .frame(width: 100, height: 145, alignment: .center)
                             .rotationEffect(.degrees(270))
-                            .offset(x:10, y: -(CGFloat(index)*20))
+                            .opacity(player4[index].c)
+                            .animation(.default)
+                            .offset(x:10-CGFloat(player4[index].f), y:-(CGFloat(index)*20))
                     }
                 }
             }.offset(x: 430, y: 100)
@@ -119,6 +141,27 @@ struct InGameView: View {
         }
         player1.append(cardList[52])
     }
+    
+    func dropCard1(){
+        var list1 = player1
+        var list2 = player1
+        var list3 = [Card]()
+        for i in 0...list1.count-1{
+            var found = false
+            for j in 0...list2.count-1{
+                if list1[i].rank == list2[j].rank{
+                    found = true
+                    break
+                }
+            }
+            if !found{
+                list3.append(list1[i])
+            }
+                
+        }
+        player1 = list3
+    }
+    
 }
 
 struct InGameView_Previews: PreviewProvider {
