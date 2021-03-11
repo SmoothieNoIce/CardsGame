@@ -16,7 +16,9 @@ struct ContentView: View {
         ZStack{
             VStack{
                 Button(
-                    action:{isNotStart = false},
+                    action:{
+                        isNotStart = false
+                    },
                     label:{Text("開始遊戲")
                         .foregroundColor(Color.white)
                         .padding(.all, 9.0)

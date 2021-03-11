@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		37934DFB25FA36F1006EFE39 /* ChooseCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37934DFA25FA36F1006EFE39 /* ChooseCardView.swift */; };
 		37B08C4025F89C2B007D618C /* CardsGameApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37B08C3F25F89C2B007D618C /* CardsGameApp.swift */; };
 		37B08C4225F89C2B007D618C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37B08C4125F89C2B007D618C /* ContentView.swift */; };
 		37B08C4425F89C2E007D618C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 37B08C4325F89C2E007D618C /* Assets.xcassets */; };
@@ -37,6 +38,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		37934DFA25FA36F1006EFE39 /* ChooseCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseCardView.swift; sourceTree = "<group>"; };
 		37B08C3C25F89C2B007D618C /* CardsGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CardsGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		37B08C3F25F89C2B007D618C /* CardsGameApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardsGameApp.swift; sourceTree = "<group>"; };
 		37B08C4125F89C2B007D618C /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -112,6 +114,7 @@
 				37B08C4D25F89C2E007D618C /* Info.plist */,
 				37B08C4A25F89C2E007D618C /* CardsGame.xcdatamodeld */,
 				37B08C4525F89C2E007D618C /* Preview Content */,
+				37934DFA25FA36F1006EFE39 /* ChooseCardView.swift */,
 			);
 			path = CardsGame;
 			sourceTree = "<group>";
@@ -271,6 +274,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				37934DFB25FA36F1006EFE39 /* ChooseCardView.swift in Sources */,
 				37B52C5725F8A4260033ED93 /* GameOverView.swift in Sources */,
 				37B08C4925F89C2E007D618C /* Persistence.swift in Sources */,
 				37B08C4C25F89C2E007D618C /* CardsGame.xcdatamodeld in Sources */,
