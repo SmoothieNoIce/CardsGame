@@ -32,10 +32,11 @@ let ranks = ["ace", "2", "3", "4", "5", "6", "7", "8", "9", "10","jack","queen",
 
 struct InGameView: View {
     
-    @State var gameing = 1
+    @State var gaming = 1
     @State var order = 0
     @State var message = "開始遊戲"
     @State var showGetCard = false
+    @State var selectedCard = Card(suit:"",rank: "")
     @State var playerList: [Player] = [
         Player(id: 0, cardList: [Card]()) ,
         Player(id: 1, cardList: [Card]()) ,
@@ -117,31 +118,23 @@ struct InGameView: View {
                     }
                 }
             }.offset(x: 430, y: 100)
-        })
-        .sheet(isPresented: $isNotStart, content: {
-            ChooseCardView(player:$playerList[1])
-        })
-        .sheet(isPresented: $isShowGameOver, content: {
-            GameOverView(isShowGameOver:$isShowGameOver)
-        })
-        .sheet(isPresented: $isNotStart, content: {
-           ContentView(isNotStart:$isNotStart)
-        })
-  
-        .onChange(of: gameing, perform: { newValue in
+        }).onChange(of: gaming, perform: { newValue in
             switch newValue{
                 case 0: message = "開始遊戲"
                 case 1: message = "棄牌"
                 case 2:
-                    message = "抽鬼牌"
+                    message = "玩家抽牌"
                     showGetCard = true
-                case 3: message = "遊戲結束"
+                case 3:
+                    showGetCard = false
+                    message = "電腦抽牌"
+                    
                 default: message = ""
             }
         })
         .onChange(of: isNotStart){ newValue in
             if(newValue == false){
-                gameing = 1
+                gaming = 1
                 dropCard1()
             }
         }
@@ -149,6 +142,17 @@ struct InGameView: View {
             washCard()
             //dropCard1()
         })
+        EmptyView().sheet(isPresented: $isShowGameOver, content: {
+            GameOverView(isShowGameOver:$isShowGameOver)
+        })
+        EmptyView().sheet(isPresented: $showGetCard, content: {
+            ChooseCardView(gaming:$gaming,player:$playerList[1],selectedCard: $selectedCard)
+        })
+        EmptyView().sheet(isPresented: $isNotStart, content: {
+           ContentView(isNotStart:$isNotStart)
+        })
+
+        
     }
     
     func washCard(){
@@ -222,7 +226,7 @@ struct InGameView: View {
         }
         delay(2.5, closure: {
             playerList[playerIndex].cardList = list1
-            gameing = 2
+            gaming = 2
         })
     }
     
