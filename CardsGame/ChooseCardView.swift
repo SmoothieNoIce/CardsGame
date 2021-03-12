@@ -10,7 +10,7 @@ import SwiftUI
 struct ChooseCardView: View {
     @Binding var gaming :Int
     @Binding var player : Player
-    @Binding var selectedCard : Card
+    @Binding var selectedCard : Int
 
     var body: some View {
         VStack(){
@@ -18,7 +18,7 @@ struct ChooseCardView: View {
             HStack{
                 ForEach(player.cardList.indices , id:\.self){ (index) in
                         Button(action: {
-                            selectedCard = player.cardList[index]
+                            selectedCard = index
                             gaming = 3
                         }){
                             Image("back_card")
@@ -38,7 +38,7 @@ struct ChooseCardView_Previews: PreviewProvider {
         ChooseCardView(
             gaming: .constant(2),
             player: .constant(Player(id: 1, cardList: [Card]())),
-            selectedCard: .constant(Card(suit:"",rank: ""))
+            selectedCard: .constant(0)
         )
     }
 }
