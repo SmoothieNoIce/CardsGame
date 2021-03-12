@@ -126,6 +126,10 @@ struct InGameView: View {
                 case 0: message = "開始遊戲"
                 case 1: message = "棄牌"
                 case 2:
+                    if playerList[0].isNoCard == true{
+                        gaming = 5
+                        return
+                    }
                     message = "玩家抽牌"
                     gamerChooseComputer = selectNextPlayer(current: 0)
                     showGetCard = true
@@ -273,6 +277,8 @@ struct InGameView: View {
                 gaming = 5
                 return
             }
+            print(next)
+            print(nextDrop)
             computerChooseCard(i:next,next:nextDrop)
         })
     }
