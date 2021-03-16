@@ -47,6 +47,7 @@ struct InGameView: View {
         Player(id: 3, cardList: [Card]()) ,
     ]
     
+    @State private var isShowGameWin = false
     @State private var isShowGameOver = false
     @State private var isNotStart = true
     
@@ -57,20 +58,11 @@ struct InGameView: View {
             
             Text("\(message)").offset(x: 0, y: 0.0)
             
-            Button(
-                action:{
-                },
-                label:{
-                    Image(systemName:"pencil")
-                        .resizable()
-                        .frame(width: 50, height: 50, alignment: .center)
-                        .padding(20)
-                }).offset(x: 0, y: 80.0)
             
             ZStack(){
                 ForEach(playerList[0].cardList.indices , id:\.self){ (index) in
                     HStack{
-                        Image("\(playerList[0].cardList[index].rank)_of_\(playerList[0].cardList[index].suit)")
+                            Image("\(playerList[0].cardList[index].rank)_of_\(playerList[0].cardList[index].suit)")
                             .resizable()
                             .frame(width: 100, height: 145, alignment: .center)
                             .opacity(playerList[0].cardList[index].c)
@@ -81,46 +73,59 @@ struct InGameView: View {
             }.offset(x: -180, y: 180)
             
             ZStack(){
-                ForEach(playerList[1].cardList.indices , id:\.self){ (index) in
-                    HStack{
-                        Image("back_card")
-                            .resizable()
-                            .frame(width: 100, height: 145, alignment: .center)
-                            .opacity(playerList[1].cardList[index].c)
-                            .animation(.default)
-                            .offset(x:10+CGFloat(playerList[1].cardList[index].f), y: CGFloat(index)*20)
-                        
-                    }
-                }
-            }.offset(x: -430, y: -100)
+                           ForEach(playerList[0].cardList.indices , id:\.self){ (index) in
+                               HStack{
+                                   Image("\(playerList[0].cardList[index].rank)_of_\(playerList[0].cardList[index].suit)")
+                                       .resizable()
+                                       .frame(width: 100, height: 145, alignment: .center)
+                                       .opacity(playerList[0].cardList[index].c)
+                                       .animation(.default)
+                                       .offset(x: CGFloat(index)*35, y:10-CGFloat(playerList[0].cardList[index].f))
+                               }
+                           }
+                       }.offset(x: -180, y: 180)
+                       
+                       ZStack(){
+                           ForEach(playerList[1].cardList.indices , id:\.self){ (index) in
+                               HStack{
+                                   Image("back_card")
+                                       .resizable()
+                                       .frame(width: 100, height: 145, alignment: .center)
+                                       .opacity(playerList[1].cardList[index].c)
+                                       .animation(.default)
+                                       .offset(x:10+CGFloat(playerList[1].cardList[index].f), y: CGFloat(index)*20)
+                                   
+                               }
+                           }
+                       }.offset(x: -430, y: -100)
+                       
+                       ZStack(){
+                           ForEach(playerList[2].cardList.indices , id:\.self){ (index) in
+                               HStack{
+                                   Image("back_card")
+                                       .resizable()
+                                       .frame(width: 100, height: 145, alignment: .center)
+                                       .opacity(playerList[2].cardList[index].c)
+                                       .animation(.default)
+                                       .offset(x: CGFloat(index)*35, y:10+CGFloat(playerList[2].cardList[index].f))
+                               }
+                           }
+                       }.offset(x: -250, y: -200)
             
             ZStack(){
-                ForEach(playerList[2].cardList.indices , id:\.self){ (index) in
-                    HStack{
-                        Image("back_card")
-                            .resizable()
-                            .frame(width: 100, height: 145, alignment: .center)
-                            .opacity(playerList[2].cardList[index].c)
-                            .animation(.default)
-                            .offset(x: CGFloat(index)*35, y:10+CGFloat(playerList[2].cardList[index].f))
-                    }
-                }
-            }.offset(x: -250, y: -200)
+                            ForEach(playerList[3].cardList.indices , id:\.self){ (index) in
+                                HStack{
+                                    Image("back_card")
+                                        .resizable()
+                                        .frame(width: 100, height: 145, alignment: .center)
+                                        .rotationEffect(.degrees(270))
+                                        .opacity(playerList[3].cardList[index].c)
+                                        .animation(.default)
+                                        .offset(x:10-CGFloat(playerList[3].cardList[index].f), y:-(CGFloat(index)*20))
+                                }
+                            }
+                        }.offset(x: 430, y: 100)
             
-            
-            ZStack(){
-                ForEach(playerList[3].cardList.indices , id:\.self){ (index) in
-                    HStack{
-                        Image("back_card")
-                            .resizable()
-                            .frame(width: 100, height: 145, alignment: .center)
-                            .rotationEffect(.degrees(270))
-                            .opacity(playerList[3].cardList[index].c)
-                            .animation(.default)
-                            .offset(x:10-CGFloat(playerList[3].cardList[index].f), y:-(CGFloat(index)*20))
-                    }
-                }
-            }.offset(x: 430, y: 100)
         }).onChange(of: gaming, perform: { newValue in
             switch newValue{
                 case 0: message = "開始遊戲"
@@ -154,8 +159,15 @@ struct InGameView: View {
                     }
                     computerChooseCard(i: next, next: nextDrop)
                 case 5:
+                    money = money + 10
                     showGetCard = false
-                    message = "結束"
+                    message = "勝利"
+                    isShowGameWin = true
+                case 6:
+                    money = money - 10
+                    showGetCard = false
+                    message = "失敗"
+                    isShowGameOver = false
                 default: message = ""
             }
         })
@@ -170,13 +182,16 @@ struct InGameView: View {
             //dropCard1()
         })
         EmptyView().sheet(isPresented: $isShowGameOver, content: {
-            GameOverView(isShowGameOver:$isShowGameOver)
+            GameOverView(isShowGameOver:$isShowGameOver,isNotStart:$isNotStart,money:$money)
+        })
+        EmptyView().sheet(isPresented: $isShowGameWin, content: {
+            GameWinView(isShowGameWin:$isShowGameWin,isNotStart:$isNotStart,money:$money)
         })
         EmptyView().sheet(isPresented: $showGetCard, content: {
             ChooseCardView(gaming:$gaming,player:$playerList[gamerChooseComputer],selectedCard: $selectedCard)
         })
         EmptyView().sheet(isPresented: $isNotStart, content: {
-           ContentView(isNotStart:$isNotStart)
+            ContentView(isNotStart:$isNotStart,money:$money)
         })
 
         
@@ -400,3 +415,18 @@ struct CircleImage: View {
 
 
 
+
+struct CardComputer: View {
+    @Binding var player:Player
+    var index:Int
+    var offsetx:CGFloat
+    var offsety:CGFloat
+    var body: some View {
+        Image("back_card")
+            .resizable()
+            .frame(width: 100, height: 145, alignment: .center)
+            .opacity(player.cardList[index].c)
+            .animation(.default)
+            .offset(x:offsetx, y: offsety)
+    }
+}

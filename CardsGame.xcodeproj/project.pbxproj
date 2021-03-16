@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		37934DFB25FA36F1006EFE39 /* ChooseCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37934DFA25FA36F1006EFE39 /* ChooseCardView.swift */; };
+		37934E08260070EC006EFE39 /* GameWinView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37934E07260070EC006EFE39 /* GameWinView.swift */; };
 		37B08C4025F89C2B007D618C /* CardsGameApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37B08C3F25F89C2B007D618C /* CardsGameApp.swift */; };
 		37B08C4225F89C2B007D618C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37B08C4125F89C2B007D618C /* ContentView.swift */; };
 		37B08C4425F89C2E007D618C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 37B08C4325F89C2E007D618C /* Assets.xcassets */; };
@@ -39,6 +40,7 @@
 
 /* Begin PBXFileReference section */
 		37934DFA25FA36F1006EFE39 /* ChooseCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseCardView.swift; sourceTree = "<group>"; };
+		37934E07260070EC006EFE39 /* GameWinView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameWinView.swift; sourceTree = "<group>"; };
 		37B08C3C25F89C2B007D618C /* CardsGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CardsGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		37B08C3F25F89C2B007D618C /* CardsGameApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardsGameApp.swift; sourceTree = "<group>"; };
 		37B08C4125F89C2B007D618C /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -109,6 +111,7 @@
 				37B08C4125F89C2B007D618C /* ContentView.swift */,
 				37B52C5B25F8A6270033ED93 /* InGameView.swift */,
 				37B52C5625F8A4260033ED93 /* GameOverView.swift */,
+				37934E07260070EC006EFE39 /* GameWinView.swift */,
 				37B08C4325F89C2E007D618C /* Assets.xcassets */,
 				37B08C4825F89C2E007D618C /* Persistence.swift */,
 				37B08C4D25F89C2E007D618C /* Info.plist */,
@@ -281,6 +284,7 @@
 				37B52C5C25F8A6270033ED93 /* InGameView.swift in Sources */,
 				37B08C4225F89C2B007D618C /* ContentView.swift in Sources */,
 				37B08C4025F89C2B007D618C /* CardsGameApp.swift in Sources */,
+				37934E08260070EC006EFE39 /* GameWinView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

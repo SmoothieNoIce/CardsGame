@@ -11,10 +11,17 @@ import CoreData
 struct ContentView: View {
     
     @Binding var isNotStart :Bool
+    @Binding var money :Int
 
     var body: some View {
         ZStack{
             VStack{
+                Image("appstore")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 100, height: 100, alignment: .center)
+                    .padding(40)
+                Text("抽鬼牌")
                 Button(
                     action:{
                         isNotStart = false
@@ -25,6 +32,18 @@ struct ContentView: View {
                     })
                         .background(/*@START_MENU_TOKEN@*//*@PLACEHOLDER=View@*/Color.blue/*@END_MENU_TOKEN@*/)
                         .cornerRadius(10)
+                
+                Link(destination: URL(string: "https://zh.wikipedia.org/wiki/%E6%BD%9B%E7%83%8F%E9%BE%9C")!, label: {
+                            VStack {
+                                Text("規則")
+                                    .foregroundColor(Color.white)
+                                    .padding(.all, 9.0)
+                                    .background(/*@START_MENU_TOKEN@*//*@PLACEHOLDER=View@*/Color.blue/*@END_MENU_TOKEN@*/)
+                                    .cornerRadius(10)
+                            }
+                })
+                Text("money:\(money)")
+
             }
         }
 
@@ -42,7 +61,7 @@ private let itemFormatter: DateFormatter = {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            ContentView(isNotStart: .constant(false))
+            ContentView(isNotStart: .constant(false),money: .constant(100))
            
         }
     }
