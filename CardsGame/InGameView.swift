@@ -35,7 +35,7 @@ struct InGameView: View {
     
     @State var money = 100
     @State var gamerChooseComputer = 1
-    @State var gaming = 1
+    @State var gaming = 0
     @State var order = 0
     @State var message = "開始遊戲"
     @State var showGetCard = false
@@ -48,7 +48,7 @@ struct InGameView: View {
     ]
     
     @State private var isShowGameWin = false
-    @State private var isShowGameOver = false
+    @State private var isShowGameLose = false
     @State private var isNotStart = true
     
     var body: some View {
@@ -130,7 +130,19 @@ struct InGameView: View {
             switch newValue{
                 case 0: message = "開始遊戲"
                 case 1: message = "棄牌"
+                    playerList[0].isNoCard = false
+                    playerList[1].isNoCard = false
+                    playerList[2].isNoCard = false
+                    playerList[3].isNoCard = false
+                    gamerChooseComputer = 1
+                    order = 0
+                    washCard()
+                    dropCard1()
                 case 2:
+                    if playerList[1].isNoCard == true && playerList[2].isNoCard == true && playerList[3].isNoCard == true {
+                        gaming = 6
+                        return
+                    }
                     if playerList[0].isNoCard == true{
                         gaming = 5
                         return
@@ -149,14 +161,16 @@ struct InGameView: View {
                     message = "電腦抽牌"
                     let next = selectNextPlayer(current: 0)
                     if next == 4{
-                        gaming = 5
+                        gaming = 6
                         return
                     }
                     let nextDrop = selectNextPlayer(current: next)
                     if nextDrop == 4{
-                        gaming = 5
+                        gaming = 6
                         return
                     }
+                    print("next:\(next)")
+                    print("nextdrop:\(nextDrop)")
                     computerChooseCard(i: next, next: nextDrop)
                 case 5:
                     money = money + 10
@@ -167,25 +181,28 @@ struct InGameView: View {
                     money = money - 10
                     showGetCard = false
                     message = "失敗"
-                    isShowGameOver = false
+                    isShowGameLose = true
+                case 7:
+                    showGetCard = false
+                    message = "遊戲結束"
                 default: message = ""
             }
         })
         .onChange(of: isNotStart){ newValue in
             if(newValue == false){
+                money = 100
                 gaming = 1
-                dropCard1()
+                
             }
         }
         .onAppear(perform: {
-            washCard()
             //dropCard1()
-        })
-        EmptyView().sheet(isPresented: $isShowGameOver, content: {
-            GameOverView(isShowGameOver:$isShowGameOver,isNotStart:$isNotStart,money:$money)
+        }).background(LinearGradient(gradient: Gradient(colors: [Color.red, Color.blue]), startPoint: UnitPoint(x: 0, y: 0), endPoint: UnitPoint(x: 1, y: 1)))
+        EmptyView().sheet(isPresented: $isShowGameLose, content: {
+            GameLoseView(isShowGameLose:$isShowGameLose,gaming:$gaming,money:$money)
         })
         EmptyView().sheet(isPresented: $isShowGameWin, content: {
-            GameWinView(isShowGameWin:$isShowGameWin,isNotStart:$isNotStart,money:$money)
+            GameWinView(isShowGameWin:$isShowGameWin,gaming:$gaming,money:$money)
         })
         EmptyView().sheet(isPresented: $showGetCard, content: {
             ChooseCardView(gaming:$gaming,player:$playerList[gamerChooseComputer],selectedCard: $selectedCard)
@@ -197,7 +214,7 @@ struct InGameView: View {
         
     }
     
-    
+    //使用者抽下個電腦的牌
     func chooseAndDrop(player1:Int,player2:Int,card:Int, nextStep:@escaping()->Void){
         playerList[player2].cardList[card].c = 0
         playerList[player2].cardList[card].f = 100
@@ -273,8 +290,6 @@ struct InGameView: View {
         return next
     }
     
-
-    
     func computerChooseCard(i:Int,next:Int){
         var card = computerChooseCard2(i: i,next:next)
         chooseAndDrop(player1: i,player2:next,card: card, nextStep: {
@@ -284,16 +299,16 @@ struct InGameView: View {
             }
             let next = selectNextPlayer(current: i)
             if next == 4{
-                gaming = 5
+                gaming = 6
                 return
             }
             let nextDrop = selectNextPlayer(current: next)
             if nextDrop == 4{
-                gaming = 5
+                gaming = 6
                 return
             }
-            print(next)
-            print(nextDrop)
+            print("next:\(next)")
+            print("nextdrop:\(nextDrop)")
             computerChooseCard(i:next,next:nextDrop)
         })
     }
@@ -306,6 +321,7 @@ struct InGameView: View {
         return num
     }
     
+    //下面正常
     func washCard(){
         
         for i in 0...3{

@@ -1,27 +1,27 @@
 //
-//  GameWinView.swift
+//  GameLoseView.swift
 //  CardsGame
 //
-//  Created by User22 on 2021/3/16.
+//  Created by User22 on 2021/3/17.
 //
 
 import SwiftUI
 
-struct GameWinView: View {
-    @Binding var isShowGameWin :Bool
+struct GameLoseView: View {
+    @Binding var isShowGameLose :Bool
     @Binding var gaming :Int
     @Binding var money :Int
     var body: some View {
         ZStack{
             Color.yellow.edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
             VStack{
-                Text("win!")
+                Text("lose!")
                 Text("money:\(money)")
             }
         }.overlay(
             Button(
                 action:{
-                    isShowGameWin = false
+                    isShowGameLose = false
                     gaming = 1
                 },
                 label:{
@@ -35,8 +35,8 @@ struct GameWinView: View {
     }
 }
 
-struct GameWinView_Previews: PreviewProvider {
+struct GameLoseView_Previews: PreviewProvider {
     static var previews: some View {
-        GameWinView(isShowGameWin:.constant(true),gaming: .constant(0),money: .constant(100))
+        GameLoseView(isShowGameLose:.constant(true),gaming: .constant(0),money: .constant(100))
     }
 }
