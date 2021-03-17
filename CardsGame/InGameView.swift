@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import AVFoundation
 
 struct Card : Identifiable,Hashable{
     let id = UUID()
@@ -50,10 +51,16 @@ struct InGameView: View {
     @State private var isShowGameWin = false
     @State private var isShowGameLose = false
     @State private var isNotStart = true
-    
+    @State var looper: AVPlayerLooper?
+
     var body: some View {
         
         ZStack(alignment: Alignment(horizontal: .center, vertical: .center), content: {
+            
+            
+            Image("card_table")
+                .resizable()
+                .edgesIgnoringSafeArea(.all)
             
             
             Text("\(message)").offset(x: 0, y: 0.0)
@@ -62,7 +69,7 @@ struct InGameView: View {
             ZStack(){
                 ForEach(playerList[0].cardList.indices , id:\.self){ (index) in
                     HStack{
-                            Image("\(playerList[0].cardList[index].rank)_of_\(playerList[0].cardList[index].suit)")
+                        Image("\(playerList[0].cardList[index].rank)_of_\(playerList[0].cardList[index].suit)")
                             .resizable()
                             .frame(width: 100, height: 145, alignment: .center)
                             .opacity(playerList[0].cardList[index].c)
@@ -73,131 +80,142 @@ struct InGameView: View {
             }.offset(x: -180, y: 180)
             
             ZStack(){
-                           ForEach(playerList[0].cardList.indices , id:\.self){ (index) in
-                               HStack{
-                                   Image("\(playerList[0].cardList[index].rank)_of_\(playerList[0].cardList[index].suit)")
-                                       .resizable()
-                                       .frame(width: 100, height: 145, alignment: .center)
-                                       .opacity(playerList[0].cardList[index].c)
-                                       .animation(.default)
-                                       .offset(x: CGFloat(index)*35, y:10-CGFloat(playerList[0].cardList[index].f))
-                               }
-                           }
-                       }.offset(x: -180, y: 180)
-                       
-                       ZStack(){
-                           ForEach(playerList[1].cardList.indices , id:\.self){ (index) in
-                               HStack{
-                                   Image("back_card")
-                                       .resizable()
-                                       .frame(width: 100, height: 145, alignment: .center)
-                                       .opacity(playerList[1].cardList[index].c)
-                                       .animation(.default)
-                                       .offset(x:10+CGFloat(playerList[1].cardList[index].f), y: CGFloat(index)*20)
-                                   
-                               }
-                           }
-                       }.offset(x: -430, y: -100)
-                       
-                       ZStack(){
-                           ForEach(playerList[2].cardList.indices , id:\.self){ (index) in
-                               HStack{
-                                   Image("back_card")
-                                       .resizable()
-                                       .frame(width: 100, height: 145, alignment: .center)
-                                       .opacity(playerList[2].cardList[index].c)
-                                       .animation(.default)
-                                       .offset(x: CGFloat(index)*35, y:10+CGFloat(playerList[2].cardList[index].f))
-                               }
-                           }
-                       }.offset(x: -250, y: -200)
+                ForEach(playerList[0].cardList.indices , id:\.self){ (index) in
+                    HStack{
+                        Image("\(playerList[0].cardList[index].rank)_of_\(playerList[0].cardList[index].suit)")
+                            .resizable()
+                            .frame(width: 100, height: 145, alignment: .center)
+                            .opacity(playerList[0].cardList[index].c)
+                            .animation(.default)
+                            .offset(x: CGFloat(index)*35, y:10-CGFloat(playerList[0].cardList[index].f))
+                    }
+                }
+            }.offset(x: -180, y: 180)
             
             ZStack(){
-                            ForEach(playerList[3].cardList.indices , id:\.self){ (index) in
-                                HStack{
-                                    Image("back_card")
-                                        .resizable()
-                                        .frame(width: 100, height: 145, alignment: .center)
-                                        .rotationEffect(.degrees(270))
-                                        .opacity(playerList[3].cardList[index].c)
-                                        .animation(.default)
-                                        .offset(x:10-CGFloat(playerList[3].cardList[index].f), y:-(CGFloat(index)*20))
-                                }
-                            }
-                        }.offset(x: 430, y: 100)
+                ForEach(playerList[1].cardList.indices , id:\.self){ (index) in
+                    HStack{
+                        Image("back_card")
+                            .resizable()
+                            .frame(width: 100, height: 145, alignment: .center)
+                            .opacity(playerList[1].cardList[index].c)
+                            .animation(.default)
+                            .offset(x:10+CGFloat(playerList[1].cardList[index].f), y: CGFloat(index)*20)
+                        
+                    }
+                }
+            }.offset(x: -430, y: -100)
+            
+            ZStack(){
+                ForEach(playerList[2].cardList.indices , id:\.self){ (index) in
+                    HStack{
+                        Image("back_card")
+                            .resizable()
+                            .frame(width: 100, height: 145, alignment: .center)
+                            .opacity(playerList[2].cardList[index].c)
+                            .animation(.default)
+                            .offset(x: CGFloat(index)*35, y:10+CGFloat(playerList[2].cardList[index].f))
+                    }
+                }
+            }.offset(x: -250, y: -200)
+            
+            ZStack(){
+                ForEach(playerList[3].cardList.indices , id:\.self){ (index) in
+                    HStack{
+                        Image("back_card")
+                            .resizable()
+                            .frame(width: 100, height: 145, alignment: .center)
+                            .rotationEffect(.degrees(270))
+                            .opacity(playerList[3].cardList[index].c)
+                            .animation(.default)
+                            .offset(x:10-CGFloat(playerList[3].cardList[index].f), y:-(CGFloat(index)*20))
+                    }
+                }
+            }.offset(x: 430, y: 100)
             
         }).onChange(of: gaming, perform: { newValue in
             switch newValue{
-                case 0: message = "開始遊戲"
-                case 1: message = "棄牌"
-                    playerList[0].isNoCard = false
-                    playerList[1].isNoCard = false
-                    playerList[2].isNoCard = false
-                    playerList[3].isNoCard = false
-                    gamerChooseComputer = 1
-                    order = 0
-                    washCard()
-                    dropCard1()
-                case 2:
-                    if playerList[1].isNoCard == true && playerList[2].isNoCard == true && playerList[3].isNoCard == true {
-                        gaming = 6
-                        return
-                    }
-                    if playerList[0].isNoCard == true{
-                        gaming = 5
-                        return
-                    }
-                    message = "玩家抽牌"
-                    gamerChooseComputer = selectNextPlayer(current: 0)
-                    showGetCard = true
-                case 3:
-                    showGetCard = false
-                    message = "抽牌"
-                    chooseAndDrop(player1: 0, player2: gamerChooseComputer, card: selectedCard, nextStep: {
-                        gaming = 4
-                    })
-                case 4:
-                    showGetCard = false
-                    message = "電腦抽牌"
-                    let next = selectNextPlayer(current: 0)
-                    if next == 4{
-                        gaming = 6
-                        return
-                    }
-                    let nextDrop = selectNextPlayer(current: next)
-                    if nextDrop == 4{
-                        gaming = 6
-                        return
-                    }
-                    print("next:\(next)")
-                    print("nextdrop:\(nextDrop)")
-                    computerChooseCard(i: next, next: nextDrop)
-                case 5:
-                    money = money + 10
-                    showGetCard = false
-                    message = "勝利"
-                    isShowGameWin = true
-                case 6:
-                    money = money - 10
-                    showGetCard = false
-                    message = "失敗"
-                    isShowGameLose = true
-                case 7:
-                    showGetCard = false
-                    message = "遊戲結束"
-                default: message = ""
+            case 0: message = "開始遊戲"
+            case 1: message = "棄牌"
+                playerList[0].isNoCard = false
+                playerList[1].isNoCard = false
+                playerList[2].isNoCard = false
+                playerList[3].isNoCard = false
+                gamerChooseComputer = 1
+                order = 0
+                washCard()
+                dropCard1()
+            case 2:
+                if playerList[1].isNoCard == true && playerList[2].isNoCard == true && playerList[3].isNoCard == true {
+                    gaming = 6
+                    return
+                }
+                if playerList[0].isNoCard == true{
+                    gaming = 5
+                    return
+                }
+                message = "玩家抽牌"
+                gamerChooseComputer = selectNextPlayer(current: 0)
+                showGetCard = true
+            case 3:
+                showGetCard = false
+                message = "抽牌"
+                chooseAndDrop(player1: 0, player2: gamerChooseComputer, card: selectedCard, nextStep: {
+                    gaming = 4
+                })
+            case 4:
+                showGetCard = false
+                message = "電腦抽牌"
+                let next = selectNextPlayer(current: 0)
+                if next == 4{
+                    gaming = 6
+                    return
+                }
+                let nextDrop = selectNextPlayer(current: next)
+                if nextDrop == 4{
+                    gaming = 6
+                    return
+                }
+                print("next:\(next)")
+                print("nextdrop:\(nextDrop)")
+                computerChooseCard(i: next, next: nextDrop)
+            case 5:
+                money = money + 10
+                showGetCard = false
+                message = "勝利"
+                isShowGameWin = true
+            case 6:
+                money = money - 10
+                if money <= 0{
+                    gaming = 7
+                    return
+                }
+                showGetCard = false
+                message = "失敗"
+                isShowGameLose = true
+            case 7:
+                showGetCard = false
+                message = "遊戲結束"
+            default: message = ""
             }
         })
         .onChange(of: isNotStart){ newValue in
             if(newValue == false){
                 money = 100
                 gaming = 1
-                
             }
         }
         .onAppear(perform: {
-            //dropCard1()
-        }).background(LinearGradient(gradient: Gradient(colors: [Color.red, Color.blue]), startPoint: UnitPoint(x: 0, y: 0), endPoint: UnitPoint(x: 1, y: 1)))
+            if let filePath = Bundle.main.path(forResource: "background_music", ofType: "mp3"){
+                let fileUrl = URL(fileURLWithPath: filePath)
+                let player = AVQueuePlayer()
+                let item = AVPlayerItem(url: fileUrl)
+                self.looper = AVPlayerLooper(player: player, templateItem: item)
+                player.play()
+            }
+            
+            
+        })
         EmptyView().sheet(isPresented: $isShowGameLose, content: {
             GameLoseView(isShowGameLose:$isShowGameLose,gaming:$gaming,money:$money)
         })
@@ -210,11 +228,11 @@ struct InGameView: View {
         EmptyView().sheet(isPresented: $isNotStart, content: {
             ContentView(isNotStart:$isNotStart,money:$money)
         })
-
+        
         
     }
     
-    //使用者抽下個電腦的牌
+    
     func chooseAndDrop(player1:Int,player2:Int,card:Int, nextStep:@escaping()->Void){
         playerList[player2].cardList[card].c = 0
         playerList[player2].cardList[card].f = 100
@@ -268,6 +286,7 @@ struct InGameView: View {
         })
     }
     
+    //選擇下個抽牌的使用者和被抽的
     func selectNextPlayer(current:Int) -> Int{
         var next = current+1
         var selected = false
@@ -297,6 +316,10 @@ struct InGameView: View {
                 gaming = 2
                 return
             }
+            if i == 0 {
+                gaming = 2
+                return
+            }
             let next = selectNextPlayer(current: i)
             if next == 4{
                 gaming = 6
@@ -323,7 +346,6 @@ struct InGameView: View {
     
     //下面正常
     func washCard(){
-        
         for i in 0...3{
             playerList[i].cardList.removeAll()
         }
@@ -425,12 +447,6 @@ struct CircleImage: View {
             .shadow(radius: 20)
     }
 }
-
-
-
-
-
-
 
 struct CardComputer: View {
     @Binding var player:Player

@@ -15,6 +15,9 @@ struct ContentView: View {
 
     var body: some View {
         ZStack{
+            Image("card_table")
+                .resizable()
+                .edgesIgnoringSafeArea(.all)
             VStack{
                 Image("appstore")
                     .resizable()
@@ -42,7 +45,6 @@ struct ContentView: View {
                                     .cornerRadius(10)
                             }
                 })
-                Text("money:\(money)")
 
             }
         }

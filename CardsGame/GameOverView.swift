@@ -14,7 +14,7 @@ struct GameOverView: View {
     @Binding var money :Int
     var body: some View {
         ZStack{
-            Color.yellow.edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
+            Color.yellow.edgesIgnoringSafeArea(.all)
             VStack{
                 Text("lose!")
                 Text("money:\(money)")

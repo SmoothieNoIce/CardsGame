@@ -13,23 +13,31 @@ struct ChooseCardView: View {
     @Binding var selectedCard : Int
 
     var body: some View {
-        VStack(){
-            Text("抽一張牌").offset(x: 0, y: -100)
-            HStack{
-                ForEach(player.cardList.indices , id:\.self){ (index) in
-                        Button(action: {
-                            selectedCard = index
-                            gaming = 3
-                        }){
-                            Image("back_card")
-                                .resizable()
-                                .frame(width: 100, height: 145, alignment: .center)
-                                .opacity(player.cardList[index].c)
-                                .animation(.default)
-                        }
-                }
-            }.offset(x: 100, y: 0)
-        }.offset(x: 0, y: 180)
+        ZStack{
+            
+            Image("card_table")
+                .resizable()
+                .edgesIgnoringSafeArea(.all)
+            VStack(){
+                Text("抽一張牌").offset(x: 0, y: -100)
+                HStack{
+                    ForEach(player.cardList.indices , id:\.self){ (index) in
+                            Button(action: {
+                                selectedCard = index
+                                gaming = 3
+                            }){
+                                Image("back_card")
+                                    .resizable()
+                                    .frame(width: 100, height: 145, alignment: .center)
+                                    .opacity(player.cardList[index].c)
+                                    .animation(.default)
+                            }
+                    }
+                }.offset(x: 100, y: 0)
+            }.offset(x: 0, y: 180)
+       
+        }
+       
     }
 }
 
