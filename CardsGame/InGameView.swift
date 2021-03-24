@@ -62,8 +62,10 @@ struct InGameView: View {
                 .resizable()
                 .edgesIgnoringSafeArea(.all)
             
-            
-            Text("\(message)").offset(x: 0, y: 0.0)
+            VStack{
+                Text("\(message)").offset(x: 0, y: 0.0)
+                Text("money:\(money)").offset(x: 0, y: 0.0)
+            }
             
             
             ZStack(){
@@ -185,7 +187,7 @@ struct InGameView: View {
                 message = "勝利"
                 isShowGameWin = true
             case 6:
-                money = money - 10
+                money = money - 50
                 if money <= 0{
                     gaming = 7
                     return
@@ -366,7 +368,7 @@ struct InGameView: View {
         for i in 26...38{
             playerList[2].cardList.append(cardList[i])
         }
-        for i in 38...51{
+        for i in 39...51{
             playerList[3].cardList.append(cardList[i])
         }
         playerList[0].cardList.append(cardList[52])
@@ -398,21 +400,24 @@ struct InGameView: View {
                 }
             }
         }
-        for i in 0...list2.count-1{
-            delay(Double(i)*0.5)
-            {
-                for j in 0...playerList[playerIndex].cardList.count-1{
-                    if playerList[playerIndex].cardList[j].rank == list2[i].card1.rank && playerList[playerIndex].cardList[j].suit == list2[i].card1.suit{
-                        playerList[playerIndex].cardList[j].c = 0
-                        playerList[playerIndex].cardList[j].f = 100
-                    }
-                    if playerList[playerIndex].cardList[j].rank == list2[i].card2.rank && playerList[playerIndex].cardList[j].suit == list2[i].card2.suit{
-                        playerList[playerIndex].cardList[j].c = 0
-                        playerList[playerIndex].cardList[j].f = 100
+        if list2.count>=1{
+            for i in 0...list2.count-1{
+                delay(Double(i)*0.5)
+                {
+                    for j in 0...playerList[playerIndex].cardList.count-1{
+                        if playerList[playerIndex].cardList[j].rank == list2[i].card1.rank && playerList[playerIndex].cardList[j].suit == list2[i].card1.suit{
+                            playerList[playerIndex].cardList[j].c = 0
+                            playerList[playerIndex].cardList[j].f = 100
+                        }
+                        if playerList[playerIndex].cardList[j].rank == list2[i].card2.rank && playerList[playerIndex].cardList[j].suit == list2[i].card2.suit{
+                            playerList[playerIndex].cardList[j].c = 0
+                            playerList[playerIndex].cardList[j].f = 100
+                        }
                     }
                 }
             }
         }
+       
         delay(2.5, closure: {
             playerList[playerIndex].cardList = list1
         })
@@ -437,16 +442,6 @@ struct InGameView_Previews: PreviewProvider {
     }
 }
 
-struct CircleImage: View {
-    var body: some View {
-        Image(systemName: "pencil")
-            .resizable()
-            .scaledToFill()
-            .frame(width: 200, height: 200)
-            .clipShape(Circle())
-            .shadow(radius: 20)
-    }
-}
 
 struct CardComputer: View {
     @Binding var player:Player

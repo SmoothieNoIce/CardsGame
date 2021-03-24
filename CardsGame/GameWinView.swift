@@ -13,9 +13,16 @@ struct GameWinView: View {
     @Binding var money :Int
     var body: some View {
         ZStack{
-            Color.yellow.edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
+            Image("card_table")
+                .resizable()
+                .edgesIgnoringSafeArea(.all)
             VStack{
-                Text("win!")
+                Image("u_win")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 400, alignment: .center)
+                    .padding(3)
+                Text("你贏惹! money+10")
                 Text("money:\(money)")
             }
         }.overlay(
@@ -37,6 +44,6 @@ struct GameWinView: View {
 
 struct GameWinView_Previews: PreviewProvider {
     static var previews: some View {
-        GameWinView(isShowGameWin:.constant(true),gaming: .constant(0),money: .constant(100))
+        GameWinView(isShowGameWin:.constant(true),gaming: .constant(0),money: .constant(100)).preferredColorScheme(.dark).previewLayout(.fixed(width: 667, height: 375))
     }
 }

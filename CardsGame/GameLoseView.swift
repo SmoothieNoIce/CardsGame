@@ -13,9 +13,18 @@ struct GameLoseView: View {
     @Binding var money :Int
     var body: some View {
         ZStack{
-            Color.yellow.edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
+            
+            Image("card_table")
+                .resizable()
+                .edgesIgnoringSafeArea(.all)
+            
             VStack{
-                Text("lose!")
+                Image("u_lose")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 400, alignment: .center)
+                    .padding(3)
+                Text("你輸惹! money-50")
                 Text("money:\(money)")
             }
         }.overlay(
@@ -37,6 +46,7 @@ struct GameLoseView: View {
 
 struct GameLoseView_Previews: PreviewProvider {
     static var previews: some View {
-        GameLoseView(isShowGameLose:.constant(true),gaming: .constant(0),money: .constant(100))
+        GameLoseView(isShowGameLose:.constant(true),gaming: .constant(0),money: .constant(100))  .preferredColorScheme(.dark).previewLayout(.fixed(width: 667, height: 375))
+          
     }
 }

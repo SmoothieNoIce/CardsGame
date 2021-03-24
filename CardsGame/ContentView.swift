@@ -19,11 +19,7 @@ struct ContentView: View {
                 .resizable()
                 .edgesIgnoringSafeArea(.all)
             VStack{
-                Image("appstore")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 100, height: 100, alignment: .center)
-                    .padding(40)
+                CircleImage(img: "appstore")
                 Text("抽鬼牌")
                 Button(
                     action:{
@@ -70,3 +66,14 @@ struct ContentView_Previews: PreviewProvider {
 }
 
 
+struct CircleImage: View {
+    var img : String
+    var body: some View {
+        Image(img)
+            .resizable()
+            .scaledToFill()
+            .frame(width: 100, height: 100)
+            .cornerRadius(20)
+            .padding()
+    }
+}
